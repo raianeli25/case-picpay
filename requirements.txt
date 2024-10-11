@@ -3,7 +3,6 @@ uvicorn
 pytest
 mongomock
 httpx
-bson
 mlflow==2.16.2
 category-encoders==2.6.4
 cloudpickle==3.0.0
