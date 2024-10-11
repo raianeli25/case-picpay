@@ -1,0 +1,1 @@
+{"columns": ["dep_delay", "carrier", "origin", "dest", "air_time", "distance"], "data": [[24.0, "UA", "EWR", "RSW", 169.0, 1068], [-4.0, "DL", "JFK", "SFO", 337.0, 2586], [11.0, "EV", "EWR", "DCA", 39.0, 199], [-8.0, "EV", "EWR", "CLT", 77.0, 529], [-5.0, "B6", "JFK", "BQN", 198.0, 1576]]}
