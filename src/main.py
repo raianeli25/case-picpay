@@ -12,6 +12,10 @@ app = FastAPI()
 async def health():
     return {"Status": "OK"}
 
+@app.get("/", status_code=200, tags=["model_api"], summary="Health check")
+async def welcome():
+    return "Wecolme to Model API"
+
 @app.post("/model/load", tags=["model_api"], summary="Load model")
 async def load_model(model_path: str):
 
