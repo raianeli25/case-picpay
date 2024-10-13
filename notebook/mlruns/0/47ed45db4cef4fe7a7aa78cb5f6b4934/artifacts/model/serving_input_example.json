@@ -1,52 +1,52 @@
 {
   "dataframe_split": {
     "columns": [
-      "dep_delay",
+      "tailnum",
       "carrier",
       "origin",
       "dest",
-      "air_time",
+      "name",
       "distance"
     ],
     "data": [
       [
-        24.0,
+        "N37298",
         "UA",
         "EWR",
         "RSW",
-        169.0,
+        "United Air Lines Inc.",
         1068
       ],
       [
-        -4.0,
+        "N717TW",
         "DL",
         "JFK",
         "SFO",
-        337.0,
+        "Delta Air Lines Inc.",
         2586
       ],
       [
-        11.0,
+        "N11536",
         "EV",
         "EWR",
         "DCA",
-        39.0,
+        "ExpressJet Airlines Inc.",
         199
       ],
       [
-        -8.0,
+        "N13958",
         "EV",
         "EWR",
         "CLT",
-        77.0,
+        "ExpressJet Airlines Inc.",
         529
       ],
       [
-        -5.0,
+        "N535JB",
         "B6",
         "JFK",
         "BQN",
-        198.0,
+        "JetBlue Airways",
         1576
       ]
     ]

@@ -57,11 +57,11 @@ def test_load_model_successfull():
 def test_predict_sucessfull():
     """Test making predictions with valid input data."""
     data = {
-        "dep_delay": 24.0,
+        "tailnum": "N37298",
         "carrier": "UA",
         "origin": "EWR",
         "dest": "RSW",
-        "air_time": 169.0,
+        "name": "United Air Lines Inc.",
         "distance": 1068
     }
     response = client.post("/model/predict", json=data)

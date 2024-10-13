@@ -14,20 +14,20 @@ flavors:
     serialization_format: cloudpickle
     sklearn_version: 1.5.2
 mlflow_version: 2.16.2
-model_size_bytes: 7715
-model_uuid: b5691b94151f40d4aa2d383f886a5d1a
-run_id: 674b02b96b9a484c8b0e4877bcc7f3da
+model_size_bytes: 109053
+model_uuid: 1d2a52fb5fa943beb3f8c5853f855779
+run_id: 47ed45db4cef4fe7a7aa78cb5f6b4934
 saved_input_example_info:
   artifact_path: input_example.json
   pandas_orient: split
   serving_input_path: serving_input_example.json
   type: dataframe
 signature:
-  inputs: '[{"type": "double", "name": "dep_delay", "required": false}, {"type": "string",
+  inputs: '[{"type": "string", "name": "tailnum", "required": false}, {"type": "string",
     "name": "carrier", "required": true}, {"type": "string", "name": "origin", "required":
-    true}, {"type": "string", "name": "dest", "required": true}, {"type": "double",
-    "name": "air_time", "required": false}, {"type": "long", "name": "distance", "required":
+    true}, {"type": "string", "name": "dest", "required": true}, {"type": "string",
+    "name": "name", "required": true}, {"type": "long", "name": "distance", "required":
     true}]'
   outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
   params: null
-utc_time_created: '2024-10-10 18:53:12.351925'
+utc_time_created: '2024-10-13 21:10:03.602633'

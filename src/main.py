@@ -32,7 +32,7 @@ async def health():
     """
     return {"Status": "OK"}
 
-@app.get("/", status_code=200, tags=["model_api"], summary="Health check")
+@app.get("/", status_code=200, tags=["model_api"], summary="Welcome message")
 async def welcome():
     """Welcome endpoint for the Model API.
 

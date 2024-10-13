@@ -5,28 +5,28 @@ class InputData(BaseModel):
     A model representing flight input data for processing.
 
     Attributes:
-        dep_delay (float): The delay of the departure in minutes.
+        tailnumber (str): Unique airplane indentifier.
         A positive value indicates a delayed start,
         while a Negative indicates an early start.
         carrier (str): The airline carrier code.
         origin (str): The code of the origin airport.
         dest (str): The code of the destination airport.
-        air_time (float): The duration of the flight in minutes.
+        name (str): Airline name.
         distance (int): The distance of the flight in miles.
 
     Example:
         input_data = InputData(
-            dep_delay=15.0,
-            carrier='AA',
-            origin='JFK',
-            dest='LAX',
-            air_time=300.0,
-            distance=2475
+            tailnum="N37298",
+            carrier="UA",
+            origin="EWR",
+            dest="RSW",
+            name="United Air Lines Inc.",
+            distance=1068
         )
     """
-    dep_delay: float
+    tailnum: str
     carrier: str
     origin: str
     dest: str
-    air_time: float
+    name: str
     distance: int
