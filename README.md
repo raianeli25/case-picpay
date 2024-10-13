@@ -1,46 +1,51 @@
-# Case Machine Learning Engineer
+## Case Machine Learning Engineer **🧩**
 
+🎯Objetivo: Criar uma solução de transformação de dados, treino de modelo e escoragem online.
 
-# Escopo
+### Estrutura de pastas **📂**
 
-Este teste consiste em criar uma solução de transformação de dados, treino de modelo e escoragem online. Para isso deverá ser entregue um **link de um repositório Git** (GitHub, BitBucket, etc.) contendo a seguinte estrutura:
+case-picpay
+├── docs
+│   └── desenho-arquitetura.png
+├── notebook
+│   ├── mlruns
+│   ├── airports-database.csv
+│   ├── enriquecimento-base-de-dados.ipynb
+│   ├── respostas-base-de-dados.ipynb
+│   └── training-model.ipynb
+├── src
+│   ├── artifacts
+│   ├── basemodels.py
+│   ├── database.py
+│   ├── db_functions.py
+│   └── main.py
+├── tests
+│   └── test_main.py
+├── Dockerfile
+├── docker-compose.yml
+├── pytest.ini
+└── requirements.txt
 
+* **docs**: Contém o diagrama de uma possível implementação da arquitetura em cloud.
+* **notebook**: Contém os artefatos do modelo logado via mlflow (pasta mlruns), a base de dados utilizada e os notebooks com as soluções pedidas no case.
+  * ***respostas-base-de-dados.ipynb***: respostas das 17 perguntas em relação a base de dados, todas processadas com spark;
+  * ***enriquecimento-base-de-dados.ipynb***: enriquecimento da base de dados utilizando as APIs weatherbit e airportdb;
+  * ***training-model.ipynb***: treinamento do modelo utilizando mlflow.
+* **src**: Contém todos os códigos relacionados a API desenvolvida para servir o modelo.
+* **tests**: Testes relacionados aos códigos da API.
+* **Dockerfile**: Contém todas as instruções para a criação da imagem do container onde a aplicação irá funcionar.
+* **docker-compose.yml**: Orquestrador de containers.
 
+### Início rápido 🚀
 
-* **/src/** - Códigos da API
-* **/notebook/** - Contém o arquivo notebook com as transformações do dado, respostas das perguntas e treinamento do modelo
-* **/docs/** - Desenho da arquitetura
-* **/tests/** - Testes unitários
+---
 
-Abaixo estão as regras/orientações para a entrega:
+1. Certifique-se de que você possui uma instalação Docker funcionando.
+2. Vá na raiz do projeto (ou seja, na raíz de `case-picay`) e rode o comando `docker compose up --build -d`.
+3. Faça um teste acessando o Swagger API no endereço `http://localhost/8000/docs`.
 
+### Plano de deploy ⚒️
 
+![Arquitetura solução](docs/desenho_arquitetura.png)
 
-* Você terá **15 dias corridos** a partir do recebimento deste email para fazer a entrega final via `Github`, em um repositório público e o link do repositório deverá ser enviado para a plataforma Gupy em resposta ao email de recebimento do desafio;
-* Durante todo o período o **time estará disponível** para dúvidas no email `data.mlops@picpay.com`;
-* O foco do teste é avaliar como você se sai em um desafio de rotinas de Engenheiro de Machine Learning bem como você lida ao aprender novas tecnologias;
-* Caso não consiga terminar 100% do proposto, recomendamos que faça as entregas mesmo assim para que o time possa avaliar seu desempenho;
-* O uso de ferramentas como **Google** e **ChatGPT** é permitido porém, iremos avaliar e questionar a solução entregue durante a entrevista técnica;
-
-
-## CheckList de Entrega
-
-
-
-* A API deverá ser feita em **Python** e Conteinerizada no docker. A API deverá ter os seguintes endpoints:
-    * `/model/predict/`
-        * Endpoint onde deverá receber um payload com as informações do voo e retornar a previsão do atraso no destino
-    * `/model/load/`
-        * Endpoint onde deverá receber o arquivo .pkl do modelo e deixar a API pronta para realizar predições
-    * `/model/history/`
-        * Endpoint onde deverá exibir o histórico de predições realizadas (o payload de entrada + as saídas preditas)
-    * `/health/`
-        * Endpoint que irá retornar a saúde da API
-* O Notebook deverá ser exportado no formato **.ipynb **e estar dentro do repositório git.
-    * Deverá realizar as transformações utilizando spark:
-    * Responder o conjunto de perguntas contidas nesse documento
-* **Desenho** da arquitetura:
-    * Apresentar um desenho simples de como essa arquitetura poderia funcionar dentro de um ambiente Cloud;
-    * O desenho da arquitetura pode ser apenas uma **imagem** (.png, .jpg)
-
-**Você deverá apresentar a solução durante a entrevista técnica**
+Arquitetura planejada para  a Azure, mas que pode ser aplicada em outros serviços de cloud equivalentes.
