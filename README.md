@@ -4,6 +4,7 @@
 
 ### Estrutura de pastas **📂**
 
+```sh
 case-picpay
 ├── docs
 │   └── desenho-arquitetura.png
@@ -25,6 +26,7 @@ case-picpay
 ├── docker-compose.yml
 ├── pytest.ini
 └── requirements.txt
+```
 
 * **docs**: Contém o diagrama de uma possível implementação da arquitetura em cloud.
 * **notebook**: Contém os artefatos do modelo logado via mlflow (pasta mlruns), a base de dados utilizada e os notebooks com as soluções pedidas no case.
