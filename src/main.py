@@ -1,108 +1,97 @@
-from fastapi import FastAPI
-from database import InMemoryDatabase
-import pickle
-import pandas as pd
-from pydantic import BaseModel
-from bson import ObjectId
-import uvicorn
-import base64
+"""
+Model API for loading, predicting with, and managing machine learning models.
 
+This FastAPI application allows users to load machine learning models,
+make predictions, and retrieve the history of inferences. The API provides
+health check endpoints to ensure that the service is running properly.
+
+Endpoints:
+- GET /health: Checks the health status of the API.
+- GET /: Welcomes users to the Model API.
+- POST /model/load: Loads and persists a machine learning model from the specified path.
+- GET /model/list: Lists all available models in the system.
+- POST /model/predict: Makes predictions based on input data using the loaded model.
+- GET /model/history: Retrieves the history of inferences made by the models.
+
+"""
+
+from fastapi import FastAPI
+import uvicorn
+from basemodels import InputData
+from db_functions import save_pkl_model, load_pkl_model, \
+predict_model, get_inferences_history, list_models
 
 app = FastAPI()
 
-
 @app.get("/health", status_code=200, tags=["health"], summary="Health check")
 async def health():
-    return {"status": "ok"}
+    """Health check endpoint to verify that the API is running.
 
-# Define a model to hold the model metadata
-class ModelMetadata(BaseModel):
-    id: str
-    name: str  # You can include model name or any identifier
-    parameters: dict  # Store model parameters or relevant information
+    Returns:
+        JSON response with the status of the API.
+    """
+    return {"Status": "OK"}
 
-@app.post("/model/load")
+@app.get("/", status_code=200, tags=["model_api"], summary="Welcome message")
+async def welcome():
+    """Welcome endpoint for the Model API.
+
+    Returns:
+        A welcome message for users accessing the API.
+    """
+    return "Wecolme to Model API"
+
+@app.post("/model/load", tags=["model_api"], summary="Load model")
 async def load_model(model_path: str):
-    
-    db = InMemoryDatabase()
-    models = db.get_collection('models')
+    """Load and persist a machine learning model from a specified path.
 
-    try:
-        with open(model_path, "rb") as f:
-            model = pickle.load(f)
-            # Serialize the model and store it in MongoDB
-            model_bytes = pickle.dumps(model)
-            model_b64 = base64.b64encode(model_bytes).decode('utf-8')
-            models.insert_one({"model": model_b64})
-            return {"message": "Model loaded and persisted successfully."}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    Args:
+        model_path (str): The file path of the model to be loaded.
 
-@app.get("/models/")
+    Returns:
+        JSON response indicating the success of the operation.
+    """
+    save_pkl_model(model_path)
+
+    return {"message": "Model loaded and persisted successfully."}
+
+@app.get("/model/list", tags=["model_api"], summary="List model")
 async def get_models():
-    db = InMemoryDatabase()
-    models = db.get_collection('models')
+    """Retrieve a list of all available models.
 
-    return {"models":[x for x in models.find({},{})]}
+    Returns:
+        JSON response containing a list of models.
+    """
+    models = list_models()
 
-@app.post("/model/predict")
-async def predict(data: dict):
-    db = InMemoryDatabase()
-    print(data)
-    df_data = pd.DataFrame([data])
-    print(df_data.head())
-    
-    
-        # Retrieve the model from MongoDB
-    models = db.get_collection('models')
+    return {"models":list(models.find({},{}))}
 
-    model_doc = models.find_one()
-    print(model_doc)
-    if model_doc is None:
-        raise HTTPException(status_code=500, detail="No model loaded in database.")
-    
-    # Deserialize the model
-    model_bytes = base64.b64decode(model_doc["model"])
-    model = pickle.loads(model_bytes)
+@app.post("/model/predict", tags=["model_api"], summary="Make model predictions")
+async def predict(data: InputData):
+    """Make predictions using the loaded model and provided input data.
 
-    prediction_class = model.predict(df_data) 
-    result = "Atrasará" if prediction_class == 1 else "Não atrasará"
-    inference_model = { 
-    "prediction": result,
-    "features": data
-    }
-    inference = db.get_collection('inferences')
-    inference.insert_one(inference_model)
-    return inference_model
+    Args:
+        data (InputData): The input data for which predictions are to be made.
 
-@app.get("/model/history", tags=["example"], summary="List all users")
-async def history():
-    db = InMemoryDatabase()
-    inferences = db.get_collection('inferences')
-    history_inferences = [x for x in inferences.find({},{})]
-    print(history_inferences)
-    return {"status": "ok", "inferences": [x for x in inferences.find({},{})]}
+    Returns:
+        The prediction result from the model.
+    """
+    model, model_id = load_pkl_model()
 
-@app.post("/user/", tags=["example"], summary="Insert user")
-async def insert(data: dict):
-    db = InMemoryDatabase()
-    users = db.get_collection('users')
-    users.insert_one(data)
-    return {"status": "ok"}
+    result = predict_model(data,model,model_id)
 
-@app.get("/user/{name}", status_code=200, tags=["example"], summary="Get user by name")
-async def get(name: str):
-    db = InMemoryDatabase()
-    users = db.get_collection('users')
-    user = users.find_one({"name": name})
-    return {"status": "ok", "user": user}
+    return result
 
-@app.get("/user/", tags=["example"], summary="List all users")
-async def list():
-    db = InMemoryDatabase()
-    users = db.get_collection('users')
-    return {"status": "ok", "users": [x for x in users.find({},{"_id": 0})]}
+@app.get("/model/history", tags=["model_api"], summary="List infereneces history")
+async def get_history():
+    """Retrieve the history of inferences made by the models.
 
+    Returns:
+        JSON response containing the status and list of inferences.
+    """
+    inferences = get_inferences_history()
+
+    return {"status": "ok", "inferences": list(inferences.find({},{}))}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080, log_level="debug")
